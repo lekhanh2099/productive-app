@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { useLocale } from "next-intl";
-// import { useProviderLoginError } from "@/hooks/useProviderLoginError";
 import { signIn } from "next-auth/react";
 import { Button } from "../ui/button";
+import { useProviderLoginError } from "@/components/hooks/useProviderLoginError";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
  children: React.ReactNode;
- providerName: "google" | "github";
+ providerName: "google" | "github" | "apple";
  onLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -19,7 +19,7 @@ export const ProviderSignInBtn = ({
 }: Props) => {
  const [showLoggedInfo, setShowLoggedInfo] = useState(false);
  const locale = useLocale();
- // useProviderLoginError(showLoggedInfo);
+ useProviderLoginError(showLoggedInfo);
 
  const signInHandler = async () => {
   onLoading(true);

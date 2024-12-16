@@ -14,12 +14,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProviderSignInBtns } from "./ProviderSignInBtns";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-// import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { LoadingState } from "../ui/loadingState";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useToast } from "@/components/hooks/use-toast";
 
 export const SignUpCardContent = () => {
  const t = useTranslations("AUTH");
@@ -33,7 +33,7 @@ export const SignUpCardContent = () => {
   },
  });
  const [isLoading, setIsLoading] = useState(false);
- //  const { toast } = useToast();
+ const { toast } = useToast();
  const router = useRouter();
 
  const onSubmit = async (data: SignUpSchema) => {
@@ -52,9 +52,9 @@ export const SignUpCardContent = () => {
    const signUpInfo = await res.json();
 
    if (res.status === 200) {
-    // toast({
-    //  title: m("SUCCESS.SIGN_UP"),
-    // });
+    toast({
+     title: m("SUCCESS.SIGN_UP"),
+    });
     await signIn("credentials", {
      email: data.email,
      password: data.password,
@@ -69,10 +69,10 @@ export const SignUpCardContent = () => {
    } else if (err instanceof Error) {
     errMsg = m(err.message);
    }
-   //  toast({
-   //   title: errMsg,
-   //   variant: "destructive",
-   //  });
+   toast({
+    title: errMsg,
+    variant: "destructive",
+   });
   }
   setIsLoading(false);
  };

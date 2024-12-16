@@ -12,16 +12,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProviderSignInBtns } from "./ProviderSignInBtns";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { signInSchema, SignInSchema } from "@/schema/signInSchema";
 import { useState } from "react";
-// import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-// import { LoadingState } from "../ui/loadingState";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { LoadingState } from "../ui/loadingState";
+import { useToast } from "@/components/hooks/use-toast";
 
 export const SignInCardContent = () => {
  const t = useTranslations("AUTH");
@@ -33,7 +31,7 @@ export const SignInCardContent = () => {
   },
  });
  const [isLoading, setIsLoading] = useState(false);
- //  const { toast } = useToast();
+ const { toast } = useToast();
  const router = useRouter();
  const m = useTranslations("MESSAGES");
 
@@ -50,14 +48,14 @@ export const SignInCardContent = () => {
    if (!account) throw new Error("Something went wrong");
 
    if (account.error) {
-    // toast({
-    //  title: m(account.error),
-    //  variant: "destructive",
-    // });
+    toast({
+     title: m(account.error),
+     variant: "destructive",
+    });
    } else {
-    // toast({
-    //  title: m("SUCCESS.SIGN_IN"),
-    // });
+    toast({
+     title: m("SUCCESS.SIGN_IN"),
+    });
     router.push("/onboarding");
     router.refresh();
    }
@@ -68,10 +66,10 @@ export const SignInCardContent = () => {
    } else if (err instanceof Error) {
     errMsg = m(err.message);
    }
-   //  toast({
-   //   title: errMsg,
-   //   variant: "destructive",
-   //  });
+   toast({
+    title: errMsg,
+    variant: "destructive",
+   });
   }
   setIsLoading(false);
  };
